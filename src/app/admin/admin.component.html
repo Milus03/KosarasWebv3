@@ -1,69 +1,93 @@
 <div *ngFor="let user of users" class="row my-2">
-
-    <div class="col">
-        <img referrerpolicy="no-referrer" *ngIf="user.photoURL" [src]="user.photoURL" class="img-thumbnail" alt="...">
-    </div>
-    <div class="col">
-        {{user.displayName}}
-    </div>
-    <div class="col">
-        {{user.email}}
-    </div>
-    <div class="col">
-        <div class="row">
-            <div class="col">
-                <div class="form-check form-switch">
-                    <input (change)="change(user.uid)" [(ngModel)]="user.claims.moderator" class="form-check-input" type="checkbox" id="moderator">
-                    <label class="form-check-label" for="moderator">Moderator</label>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-check form-switch">
-                    <input (change)="change(user.uid)" [(ngModel)]="user.claims.admin" class="form-check-input" type="checkbox" id="admin">
-                    <label class="form-check-label" for="admin">Admin</label>
-                </div>
-            </div>
-        </div>        
-    </div>
-    <!-- <div class="col">
-        <button (click)="setCustomClaims(user.uid,{admin:true})" type="button" class="btn btn-primary">Add Admin</button>
-    </div> -->
+  <div class="col">
+      <img referrerpolicy="no-referrer" *ngIf="user.photoURL" [src]="user.photoURL" class="img-thumbnail" alt="...">
+  </div>
+  <div class="col">
+      {{user.displayName}}
+  </div>
+  <div class="col">
+      {{user.email}}
+  </div>
+  <div class="col">
+      <div class="row">
+          <div class="col">
+              <div class="form-check form-switch">
+                  <input (change)="change(user.uid)" [(ngModel)]="user.claims.moderator" class="form-check-input" type="checkbox" id="moderator">
+                  <label class="form-check-label" for="moderator">Moderator</label>
+              </div>
+          </div>
+          <div class="col">
+              <div class="form-check form-switch">
+                  <input (change)="change(user.uid)" [(ngModel)]="user.claims.admin" class="form-check-input" type="checkbox" id="admin">
+                  <label class="form-check-label" for="admin">Admin</label>
+              </div>
+          </div>
+      </div>        
+  </div>
 </div>
 
 <div>
-    <h2>Admin Termékek Kezelése</h2>
-  
-    <label for="kategoria">Kategória:</label>
-    <select id="kategoria" [(ngModel)]="kategoria" (change)="loadTermekek()">
+  <h2>Admin Termékek Kezelése</h2>
+
+  <label for="kategoria">Kategória:</label>
+  <select id="kategoria" [(ngModel)]="kategoria" (change)="loadTermekek()">
       <option value="cipok">Cipők</option>
       <option value="mezek">Mezek</option>
       <option value="labdak">Labdák</option>
       <option value="palank">Palánkok</option>
       <option value="poszterek">Poszterek</option>
-    </select>
-  
-    <table>
+  </select>
+
+  <table>
       <thead>
-        <tr>
-          <th>Termék Név</th>
-          <th>Ár</th>
-          <th>Márka</th>
-          <th>Akciók</th>
-        </tr>
+          <tr>
+              <th>Termék Név</th>
+              <th>Ár</th>
+              <th>Márka</th>
+              <th>Akciók</th>
+          </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let termek of termekek">
-          <td>{{ termek.nev }}</td>
-          <td>{{ termek.ar }} Ft</td>
-          <td>{{ termek.marka }}</td>
-          <td>
-            <button (click)="deleteTermek(termek.id)">Törlés</button>
-          </td>
-          <td>
-            <button (click)="editTermek(termek.kategoria, termek.id)">Szerkesztés</button>
-          </td>
-        </tr>
+          <tr *ngFor="let termek of termekek">
+              <td>{{ termek.nev }}</td>
+              <td>{{ termek.ar }} Ft</td>
+              <td>{{ termek.marka }}</td>
+              <td>
+                  <button (click)="deleteTermek(termek.id)">Törlés</button>
+                  <button (click)="openEditPopup(termek)">Szerkesztés</button>
+              </td>
+          </tr>
       </tbody>
-    </table>
+  </table>
+</div>
+
+<!-- Popup a termék szerkesztéséhez -->
+<div *ngIf="isPopupVisible" class="popup-overlay" (click)="closePopup()" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 1050;">
+  <div class="popup-content" (click)="$event.stopPropagation()" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); max-width: 400px; text-align: center;">
+      <h2>Szerkesztés: {{ selectedTermek?.nev }}</h2>
+      <form (submit)="saveEditedTermek()">
+          <div class="form-group">
+              <label for="nev">Név:</label>
+              <input id="nev" [(ngModel)]="editedTermek.nev" name="nev" required class="form-control">
+          </div>
+          <div class="form-group">
+              <label for="ar">Ár:</label>
+              <input id="ar" [(ngModel)]="editedTermek.ar" name="ar" required type="number" class="form-control">
+          </div>
+          <div class="form-group">
+              <label for="marka">Márka:</label>
+              <input id="marka" [(ngModel)]="editedTermek.marka" name="marka" required class="form-control">
+          </div>
+          <div class="form-group">
+              <label for="leiras">Leírás:</label>
+              <textarea id="leiras" [(ngModel)]="editedTermek.leiras" name="leiras" class="form-control"></textarea>
+          </div>
+          <div class="form-group">
+              <label for="path">Kép URL:</label>
+              <input id="path" [(ngModel)]="editedTermek.path" name="path" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-primary mt-2">Mentés</button>
+      </form>
+      <button (click)="closePopup()" class="btn btn-secondary mt-2">Bezárás</button>
   </div>
-  
+</div>
