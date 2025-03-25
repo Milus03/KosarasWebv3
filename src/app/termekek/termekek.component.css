@@ -1,0 +1,12 @@
+.filter-sidebar {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }
+
+  .modal{
+    z-index: -1;
+  }
+
+  .modal-fade{
+    z-index: -1;
+  }

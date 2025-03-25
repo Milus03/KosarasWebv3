@@ -1,0 +1,4 @@
+node_modules/
+*.local
+firebase-debug.log
+kosarasweb-firebase-adminsdk-fbsvc-dcb891d46d.json
