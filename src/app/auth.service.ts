@@ -122,7 +122,8 @@ export class AuthService {
           user?.sendEmailVerification();
         })
         .then(() => this.signOut())
-        .then(() => this.router.navigate(['verifymail']))
+        .then(() => console.log("megyen"))       
+        .then(() => this.router.navigate(['login']))
         .catch((e) => alert(e));
     });
   }

@@ -47,6 +47,9 @@ export class LoginComponent {
     )
 
   }
+  registerbtn(){
+    this.router.navigate(['/register'])
+  }
 
   forgotPassword(){
     this.auth.forgotPassword(this.email)
