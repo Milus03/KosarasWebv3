@@ -26,15 +26,14 @@ const routes: Routes = [
   {path: "mezek", component: MezekComponent},
   {path: "palankok", component: PalankokComponent},
   {path: "labdak", component: LabdakComponent},
-  // {path: "kosar", component: KosarComponent},
   {path: "login", component: LoginComponent},
   {path: "termekek/:kategoria/:id", component: TermeknezetComponent},
   {path: "editor/:category/:id", component: TermekEditorComponent},
   {path: "register", component: RegisterComponent},
   {path: "aszf", component: AszfComponent},
   {path: "admin", component: AdminComponent, canActivate:[adminGuard]},
-  // {path: "", redirectTo:"home", pathMatch:'full'},
-  // {path: "**", redirectTo:"home", pathMatch:'full'}
+  {path: "", redirectTo:"home", pathMatch:'full'},
+  {path: "**", redirectTo:"home", pathMatch:'full'}
 ];
 
 @NgModule({

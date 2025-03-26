@@ -3,7 +3,7 @@
     <h2>{{ selectedTermek?.nev }}</h2>
     <p><strong>Ár:</strong> {{ selectedTermek?.ar }} Ft</p>
     <img [src]="selectedTermek?.path" class="img-fluid" [alt]="selectedTermek?.alt" style="max-width: 100%; height: auto;">
-    <p><strong>Leírás:</strong> {{ selectedTermek?.leiras }}</p>
+    <p><strong>Leírás:</strong> {{ selectedTermek?.nev }}</p>
     <hr>
     <form (submit)="submitForm()">
       <div class="form-group">
