@@ -61,28 +61,6 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  // Termék szerkesztése
-  openEditPopup(termek: any): void {
-    this.selectedTermek = termek;
-    this.editedTermek = { ...termek };
-    this.isPopupVisible = true;
-  }
-
-  closePopup(): void {
-    this.isPopupVisible = false;
-  }
-
-  saveEditedTermek(): void {
-    if (this.editedTermek.nev && this.editedTermek.ar && this.editedTermek.marka) {
-      this.crud.updateTermek(this.kategoria, this.selectedTermek.id-1, this.editedTermek).subscribe(() => {
-        alert('Termék sikeresen frissítve!');
-        this.closePopup();
-        this.loadTermekek();
-      });
-    } else {
-      alert('Minden mezőt ki kell tölteni!');
-    }
-  }
 
   // Termék szerkesztése
   openEditPopup(termek: any): void {
@@ -126,4 +104,4 @@ export class AdminComponent implements OnInit {
       console.error('Hibás paraméterek:', kategoria, id);
     }
   }
-}
+}}
