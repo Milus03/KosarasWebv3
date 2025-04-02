@@ -28,7 +28,7 @@ export class PoszterekComponent {
 
   getposzterek() {
     this.base.getProducts().subscribe((data:any) => {
-      this.poszterek = data.poszterek
+      this.poszterek = (data.poszterek || []).filter((poszterek:any) => poszterek != null)
       this.extractFilters()
     });
   }

@@ -30,7 +30,7 @@ export class LabdakComponent {
 
   getLabdak() {
     return this.base.getProducts().subscribe((data:any) => {
-      this.labdak = data.labdak
+      this.labdak = (data.labdak || []).filter((labdak:any) => labdak != null)
       this.extractFilters()
     })
   }

@@ -29,7 +29,7 @@ export class PalankokComponent {
 
   getPalank() {
     return this.base.getProducts().subscribe((data:any) => {
-      this.palank = data.palank
+      this.palank = (data.palank || []).filter((palank:any) => palank != null)
       this.extractFilters()
     })
   }

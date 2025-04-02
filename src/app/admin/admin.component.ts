@@ -57,9 +57,12 @@ export class AdminComponent implements OnInit {
 
   loadTermekek(): void {
     this.crud.getTermekek(this.kategoria).subscribe(data => {
-      this.termekek = data ? Object.entries(data).map(([key, value]: any) => ({ id: key, ...value })) : [];
+      this.termekek = data ? Object.entries(data)
+        .map(([key, value]: any) => ({ id: key, ...value }))
+        .filter(termek => termek.nev && termek.ar) : []; // Csak érvényes termékek maradjanak
     });
   }
+  
 
 
   // Termék szerkesztése
@@ -90,9 +93,7 @@ export class AdminComponent implements OnInit {
       this.crud.deleteTermek(this.kategoria, id-1).subscribe(() => {
         this.termekek = this.termekek.filter(termek => termek.id-1 !== id-1);
       })
-      this.crud.deleteTermek(this.kategoria, id-1).subscribe(() => {
-        this.termekek = this.termekek.filter(termek => termek.id-1 !== id-1);
-      })
+      this.loadTermekek()
     }
   }
 

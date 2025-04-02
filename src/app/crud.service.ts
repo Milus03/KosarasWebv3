@@ -10,8 +10,9 @@ export class CrudService {
   constructor(private http:HttpClient) { }
 
   private url = "https://kosarasweb-default-rtdb.europe-west1.firebasedatabase.app/termekek/"
+  private mezekurl = "https://kosarasweb-default-rtdb.europe-west1.firebasedatabase.app/termekek/mezek"
 
-  getTermekek(kategoria: string): Observable<any> {
+  getTermekek(kategoria:any): Observable<any> {
     return this.http.get(`${this.url}/${kategoria}.json`);
   }
 
@@ -24,10 +25,10 @@ export class CrudService {
   }
 
   updateTermek(kategoria: string, id: number, termek: any): Observable<any> {
-    return this.http.put(`${this.url}/${kategoria}/${id}.json`, termek);
+    return this.http.patch(`${this.url}/${kategoria}/${id}.json`, termek);
   }
 
-  deleteTermek(kategoria: string, id: number): Observable<any> {
+  deleteTermek(kategoria:string, id: number): Observable<any> {
     return this.http.delete(`${this.url}/${kategoria}/${id}.json`);
   }
 }

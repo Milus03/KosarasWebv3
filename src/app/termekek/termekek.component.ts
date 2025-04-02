@@ -25,7 +25,7 @@ export class TermekekComponent {
   szinek: string[] = [];
   rendezesTomb=["Alapértelmezett","Olcsók elől","Drágák elől"];
   rendezesAllapot=1;
-  termekek = this.cipok && this.labdak && this.mezek && this.palank && this.poszterek;
+  termekek: any[] = [];
   cartService: any;
 
   buyer = {
@@ -41,12 +41,12 @@ export class TermekekComponent {
   @Output() close = new EventEmitter<void>();
 
   openPopup(termek: any): void {
-    this.selectedTermek = termek
-    this.isPopupVisible = true
+    this.selectedTermek = termek;
+    this.isPopupVisible = true;
   }
 
   closePopup(): void {
-    this.isPopupVisible = false
+    this.isPopupVisible = false;
   }
 
   isModalVisible = false;
@@ -61,27 +61,28 @@ export class TermekekComponent {
   getTermekek() {
     this.base.getProducts().subscribe((data: any) => {
       this.termekek = [
-        ...data.cipok.map((t: any) => ({ ...t, kategoria: 'cipok' })), 
-        ...data.mezek.map((t: any) => ({ ...t, kategoria: 'mezek' })), 
-        ...data.labdak.map((t: any) => ({ ...t, kategoria: 'labdak' })), 
-        ...data.palank.map((t: any) => ({ ...t, kategoria: 'palank' })), 
-        ...data.poszterek.map((t: any) => ({ ...t, kategoria: 'poszterek' }))
-      ];
+        ...(data.cipok || []).map((t: any) => ({ ...t, kategoria: 'cipok' })), 
+        ...(data.mezek || []).map((t: any) => ({ ...t, kategoria: 'mezek' })), 
+        ...(data.labdak || []).map((t: any) => ({ ...t, kategoria: 'labdak' })), 
+        ...(data.palank || []).map((t: any) => ({ ...t, kategoria: 'palank' })), 
+        ...(data.poszterek || []).map((t: any) => ({ ...t, kategoria: 'poszterek' }))
+      ].filter(t => t != null);
       this.extractFilters();
     });
   }
 
   extractFilters() {
-    this.markak = [...new Set(this.cipok.map(cipo => cipo.marka))];
-    this.szinek = [...new Set(this.cipok.map(cipo => cipo.szin))];
-    this.meretek = [...new Set(this.cipok.flatMap(cipo => cipo.meret))].sort((a, b) => a - b);
+    this.markak = [...new Set(this.termekek.map(termek => termek.marka).filter(marka => marka))];
+    this.szinek = [...new Set(this.termekek.map(termek => termek.szin).filter(szin => szin))];
+    this.meretek = [...new Set(this.termekek.flatMap(termek => termek.meret).filter(meret => meret))].sort((a, b) => a - b);
   }
 
   szurtCipok() {
-    return this.cipok.filter(cipo => {
-      return (!this.szurtMeret || cipo.meret.includes(Number(this.szurtMeret))) &&
-             (!this.szurtMarka || cipo.marka === this.szurtMarka) &&
-             (!this.szurtSzin || cipo.szin === this.szurtSzin);
+    return this.termekek.filter(termek => {
+      return termek && termek.kategoria === 'cipok' &&
+             (!this.szurtMeret || termek.meret?.includes(Number(this.szurtMeret))) &&
+             (!this.szurtMarka || termek.marka === this.szurtMarka) &&
+             (!this.szurtSzin || termek.szin === this.szurtSzin);
     });
   }
 

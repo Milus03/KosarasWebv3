@@ -31,7 +31,7 @@ export class MezekComponent {
 
   getMezek() {
     this.base.getProducts().subscribe((data:any) => {
-      this.mezek = data.mezek
+      this.mezek = (data.mezek || []).filter((mez:any) => mez != null)
       this.extractFilters()
     })
   }

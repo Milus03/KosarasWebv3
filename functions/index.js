@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const admin =require("firebase-admin")
 
-var serviceAccount = require("./kosarasweb-firebase-adminsdk-fbsvc-29ee922ba6.json");
+var serviceAccount = require("./kosarasweb-firebase-adminsdk-fbsvc-49d8468b34.json");
 const { LOG_ERROR } = require("karma/lib/constants");
 
 admin.initializeApp({
@@ -44,14 +44,6 @@ const verifyAdmin =(req,res, next)=>{
     res.status(403).json({message:"Hozzáférés megtagadva, csak 'admin'-oknak érhető el!"})
   }
 }
-const verifyModerator =(req,res, next)=>{
-  console.log(req.user)
-  if (req.user && req.user.moderator){
-    next()
-  }else{
-    res.status(403).json({message:"Hozzáférés megtagadva, csak 'moderator'-oknak érhető el!"})
-  }
-}
 
 app.get('/users',verifyToken, async (req, res) => {
 // app.get('/users',verifyToken,verifyAdmin, async (req, res) => {
@@ -82,7 +74,7 @@ app.get('/users',verifyToken, async (req, res) => {
     }
   })
 
-app.post('/setCustomClaims',verifyToken ,(req,res)=>{
+app.post('/setCustomClaims',verifyToken, verifyAdmin,(req,res)=>{
 // app.post('/setCustomClaims',verifyToken,verifyAdmin ,(req,res)=>{
   const {uid, claims} = req.body
   admin.auth().setCustomUserClaims(uid, claims)

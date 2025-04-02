@@ -20,13 +20,14 @@ import { PoszterekComponent } from './poszterek/poszterek.component';
 import { SortPipe } from './sort.pipe';
 import { RegisterComponent } from './register/register.component';
 import { AszfComponent } from './aszf/aszf.component';
-import { environment } from '../environments/environments';
+
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { SpinComponent } from './spin/spin.component';
 import { LoginComponent } from './login/login.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TermekEditorComponent } from './termek-editor/termek-editor.component';
+import { environment } from '../environmets/environment';
 
 
 @NgModule({

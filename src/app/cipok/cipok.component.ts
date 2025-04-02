@@ -32,7 +32,7 @@ export class CipokComponent {
 
   getCipok() {
     this.base.getProducts().subscribe((data:any) => {
-      this.cipok = data.cipok
+      this.cipok = (data.cipok || []).filter((cipo:any) => cipo != null)
       this.extractFilters()
     });
   }
