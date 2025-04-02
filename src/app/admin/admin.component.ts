@@ -72,29 +72,29 @@ export class AdminComponent implements OnInit {
     this.isPopupVisible = true;
   }
 
+  openDeletePopup(termek: any): void {
+    this.selectedTermek = termek;
+    this.isPopupVisible = true;
+  }
+
   closePopup(): void {
     this.isPopupVisible = false;
   }
 
   saveEditedTermek(): void {
-    if (this.editedTermek.nev && this.editedTermek.ar && this.editedTermek.marka) {
       this.crud.updateTermek(this.kategoria, this.selectedTermek.id-1, this.editedTermek).subscribe(() => {
         alert('Termék sikeresen frissítve!');
         this.closePopup();
         this.loadTermekek();
       });
-    } else {
-      alert('Minden mezőt ki kell tölteni!');
-    }
   }
 
   deleteTermek(id: number): void {
-    if (confirm('Biztosan törölni szeretnéd?')) {
       this.crud.deleteTermek(this.kategoria, id-1).subscribe(() => {
         this.termekek = this.termekek.filter(termek => termek.id-1 !== id-1);
       })
       this.loadTermekek()
-    }
+      this.closePopup()
   }
 
   editTermek(kategoria: string, id: number): void {
